@@ -39,6 +39,17 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <!-- Upload fingerprint -->
+        <div class="mt-4">
+            <x-input-label for="fingerprint" :value="__('Upload Fingerprint')" />
+
+            <input id="fingerprint" class="block mt-1 w-full"
+                            type="file"
+                            name="fingerprint" id="fingerprint"  />
+
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
@@ -49,4 +60,21 @@
             </x-primary-button>
         </div>
     </form>
+    @section('scripts')
+        <script>
+            // Get a reference to the file input element
+            const inputElement = document.querySelector('input[id="fingerprint"]');
+
+            // Create a FilePond instance
+            const pond = FilePond.create(inputElement);
+            FilePond.setOptions({
+                server: {
+                    url: '/upload',
+                    headers :{
+                        'X-CSRF-TOKEN': '{{csrf_token() }}'
+                    }
+                }
+            });
+        </script>
+    @endsection
 </x-guest-layout>

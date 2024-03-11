@@ -42,7 +42,11 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->addMedia(storage_path(path:'app/public/fingerprints/tmp/'.$request->fingerprint.'/'.$filename))
+        ->toMediaCollection('fingerprints');
+
         event(new Registered($user));
+
 
         Auth::login($user);
 
