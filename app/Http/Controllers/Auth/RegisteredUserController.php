@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\RegisterFingerprint;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -42,8 +43,14 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->addMedia(storage_path(path:'app/public/fingerprints/tmp/'.$request->fingerprint.'/'.$filename))
-        ->toMediaCollection('fingerprints');
+        $tempFile = RegisterFingerprint::where('folder', $request->fingerprint)->first();
+        $user2 = User::where('email', $request->email)->first();
+        if ($tempFile) {
+            //update the fingerprint record and include the user id
+            $affected = RegisterFingerprint::where('id', $tempFile->id)->update(['user_id' => $user2->id]);
+            
+        }
+        
 
         event(new Registered($user));
 

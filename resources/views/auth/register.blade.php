@@ -69,7 +69,7 @@
             const pond = FilePond.create(inputElement);
             FilePond.setOptions({
                 server: {
-                    url: '/upload',
+                    url: '/api/upload',
                     headers :{
                         'X-CSRF-TOKEN': '{{csrf_token() }}'
                     }
