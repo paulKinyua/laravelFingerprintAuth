@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TemporaryFile;
 use App\Models\RegisterFingerprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
@@ -29,13 +30,13 @@ class UploadController extends Controller
             $file = $request->file(key:'fingerprint');
             $filename = $file->getClientOriginalName();
             $folder = uniqid()."-".now()->timestamp;
-            $file->storeAs("fingerprints/temp/".$folder, $filename);
-
-            TemporaryFile::create([
-                'folder' => $folder,
-                'filename'=>$filename
-            ]);
-            return $folder;
+            $file->storeAs("fingerprints/tmp/".$folder, $filename);
+            
+            //return uploaded file path
+            $path = "C:/Users/HP/Documents/fingerprintAuthentication/storage/app/fingerprints/tmp/".$folder."/".$filename;
+            return $path;
+            
+            
         }
         return '';
     }

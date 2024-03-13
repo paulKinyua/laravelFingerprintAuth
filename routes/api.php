@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('upload', [UploadController::class, 'store']);
+Route::post('login_upload', [UploadController::class, 'storeLogin']);
