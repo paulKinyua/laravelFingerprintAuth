@@ -65,3 +65,32 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # laravelFingerprintAuth
+The project is expected to perform authentication using login credentials or a registered fingerprint.
+
+# Setup
+Before you start, make sure you have npm, php and mysql have been installed into your computer and are running. 
+After clonning the Laravel project run:
+- php artisan migrate
+    This command will create the database and the defined tables
+
+- npm run dev
+    Since the Authenticaion module has been developed/generated using breeze, you will need to run npm run dev to load the UI
+
+- php artisan serve
+    This command will start the laravel project and give you the link access the application.
+
+# Application (Registration)
+To register as new user, click on "Register" button in the navbar, you will be redirected to the registration page.
+You will need to fill in the registration details. You do have the capability of uploading a fingerprint image that will be attached to the registration details.
+After successful registration, you will be redirected to the dashboard page.
+
+# Applicaition (Login)
+To login, you need to click on "Login" button in the navbar, you will be redirected to the login page.
+Here you will have the option to register either using your registration details or the registered fingerprint. 
+To use the registration details, you will fill in the login form using your email address and password then click the login button.
+If you would like to login with fingerprint, click on the fingerprint button, upload your fingerprint and click submit.
+
+Fingerprint comparison is a complex process that at this point in time, cannot be performed natively by php. 
+To achieve this successfully, you will need to call an external service that is either running on java or python.
+For testing purposes, you will be logged in as the first registered user if you choose to login using fingerprint. 
+There exists a function called sendCurlRequest in the fingerprintLogin controller that ie expected to sen the external request once configured. 

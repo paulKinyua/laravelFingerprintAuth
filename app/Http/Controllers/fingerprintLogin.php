@@ -20,7 +20,7 @@ class fingerprintLogin extends Controller
         $fingerprints2 = $fingerprints->toArray();
         $paths = array();
         for($i=0; $i<sizeof($fingerprints2); $i++){
-            $details=["path"=>"C:/Users/HP/Documents/fingerprintAuthentication/storage/app/fingerprints/register/".$fingerprints2[$i]['folder']."/".$fingerprints2[$i]['filename'], "user_id"=>$fingerprints2[$i]['user_id']];
+            $details=["path"=>"/storage/app/fingerprints/register/".$fingerprints2[$i]['folder']."/".$fingerprints2[$i]['filename'], "user_id"=>$fingerprints2[$i]['user_id']];
             array_push($paths, $details);
         }
         $payload = [
@@ -29,10 +29,28 @@ class fingerprintLogin extends Controller
         ];
         
         
-        //send curl request to python for fingerprint verification
-        /*
+        
+
+        //for testing purposes, login the first record pulled from fetched registered fingerprints
+        $user = User::where('id', $fingerprints2[0]['user_id'])->first();
+        if ($user) {
+            Auth::login($user);
+
+            // Regenerate the session ID
+            $request->session()->regenerate();
+
+            // Redirect to the dashboard or any other route
+            return redirect('/dashboard');
+        }
+       
+        
+    }
+
+    public function sendCurlRequest($url, $payload){
+    //send curl request to python for fingerprint verification
+        
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, '');
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json')); //setting custom header
 
         $data_string = json_encode($payload);
@@ -48,20 +66,6 @@ class fingerprintLogin extends Controller
         curl_close($curl);
         $response2 = json_decode($curl_response, true);
 
-        */
-
-        //for testing purposes, login the first record pulled from fetched registered fingerprints
-        $user = User::where('id', $fingerprints2[0]['user_id'])->first();
-        if ($user) {
-            Auth::login($user);
-
-            // Regenerate the session ID
-            $request->session()->regenerate();
-
-            // Redirect to the dashboard or any other route
-            return redirect('/dashboard');
-        }
-       
-        
+        return $response2;
     }
 }
