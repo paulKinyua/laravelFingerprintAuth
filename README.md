@@ -70,6 +70,9 @@ The project is expected to perform authentication using login credentials or a r
 # Setup
 Before you start, make sure you have npm, php and mysql have been installed into your computer and are running. 
 After clonning the Laravel project run:
+- npm install
+    This command will install the node packages that will be used to load the UI pages.
+
 - php artisan migrate
     This command will create the database and the defined tables
 
